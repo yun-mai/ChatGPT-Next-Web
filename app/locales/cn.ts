@@ -14,7 +14,7 @@ const cn = {
     Actions: {
       ChatList: "查看消息列表",
       CompressedHistory: "查看压缩后的历史 Prompt",
-      Export: "导出聊天记录",
+      Export: "导出问诊记录",
       Copy: "复制",
       Stop: "停止",
       Retry: "重试",
@@ -36,7 +36,7 @@ const cn = {
     },
   },
   Export: {
-    Title: "导出聊天记录为 Markdown",
+    Title: "导出问诊记录为 Markdown",
     Copy: "全部复制",
     Download: "下载文件",
     MessageFromYou: "来自你的消息",
@@ -45,13 +45,13 @@ const cn = {
   Memory: {
     Title: "历史摘要",
     EmptyContent: "对话内容过短，无需总结",
-    Send: "自动压缩聊天记录并作为上下文发送",
+    Send: "自动压缩问诊记录并作为上下文发送",
     Copy: "复制摘要",
     Reset: "重置对话",
     ResetConfirm: "重置后将清空当前对话记录以及历史摘要，确认重置？",
   },
   Home: {
-    NewChat: "新的聊天",
+    NewChat: "新的问诊",
     DeleteChat: "确认删除选中的对话？",
     DeleteToast: "已删除会话",
     Revert: "撤销",
@@ -86,7 +86,7 @@ const cn = {
     Avatar: "头像",
     FontSize: {
       Title: "字体大小",
-      SubTitle: "聊天内容的字体大小",
+      SubTitle: "问诊内容的字体大小",
     },
 
     Update: {
@@ -106,7 +106,7 @@ const cn = {
     },
     Mask: {
       Title: "面具启动页",
-      SubTitle: "新建聊天时，展示面具启动页",
+      SubTitle: "新建问诊时，展示面具启动页",
     },
     Prompt: {
       Disable: {
@@ -169,16 +169,16 @@ const cn = {
     },
   },
   Store: {
-    DefaultTopic: "新的聊天",
+    DefaultTopic: "新的问诊",
     BotHello: "有什么可以帮你的吗",
     Error: "出错了，稍后重试吧",
     Prompt: {
       History: (content: string) =>
-        "这是 ai 和用户的历史聊天总结作为前情提要：" + content,
+        "这是 ai 和用户的历史问诊总结作为前情提要：" + content,
       Topic:
         "使用四到五个字直接返回这句话的简要主题，不要解释、不要标点、不要语气词、不要多余文本，如果没有主题，请直接返回“闲聊”",
       Summarize:
-        "简要总结一下你和用户的对话，用作后续的上下文提示 prompt，控制在 200 字以内",
+        "简要总结一下你和用户的对话，用作后续的上下文提示(prompt)，控制在 200 字以内",
     },
   },
   Copy: {
