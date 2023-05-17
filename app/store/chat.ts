@@ -58,8 +58,10 @@ export const BOT_HELLO: ChatMessage = createMessage({
 export const ZHIKU_MUST: ChatMessage = createMessage({
   role: "user",
   content:
-    "你来为我筹建一个健康智库，这个智库内有6个不同的智者做我的导师。这3个智者都是你依据你的知识选出的古今中外最优秀的、最有智慧的著名医生或医药领域专家（比如东汉名医张仲景、药王孙思邈、院士钟南山、神医华佗等）。接下来，我会说出我的现状和我的问题，请分别以这3个导师身份，以他们的视角来审视我的问题，给出他们的评价、解答和建议。",
+    "你来为我筹建一个健康智库，这个智库内由3名你选出最优秀的、最有智慧的著名医生或医药领域专家（比如东汉名医张仲景、药王孙思邈、院士钟南山、神医华佗等）组成。接下来，我会说出我的现状和我的问题，请分别以这3个导师身份，以他们的视角来审视我的问题，给出他们的评价、解答和建议。",
 });
+export const BEFORE_QUESTION =
+  "请分别以你选出的3名最优秀的、最有智慧的著名医生或医药领域专家的视角来回答我的问题。";
 export const RELATION_QUESTION =
   "你必须在最后附上三个与最近讨论主题相关让我可以继续向您提问的问题。";
 
@@ -267,7 +269,7 @@ export const useChatStore = create<ChatStore>()(
         const recentMessages = get().getMessagesWithMemory();
         const wrapedUserMessage = {
           ...userMessage,
-          content: `${content}, ${RELATION_QUESTION}`,
+          content: `${BEFORE_QUESTION}。我的问题是：${content}, ${RELATION_QUESTION}`,
         };
 
         const sendMessages = systemMessages.concat(
