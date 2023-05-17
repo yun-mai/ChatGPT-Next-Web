@@ -703,6 +703,23 @@ export function Chat() {
             !(message.preview || message.content.length === 0);
           const showTyping = message.preview || message.streaming;
 
+          const hasRelationQuestion =
+          !isUser &&
+          i > 0 &&
+          !(message.preview || message.content.length === 0);
+
+          if(hasRelationQuestion){
+            // const htmlText = marked( message.content );
+            // const questionMatches = htmlText.match(/<li>(.*?)<\/li>/g);
+            const questionMatches = ["aaa", "bbb", "ccc", "ddd", "eee"];
+            const lastQuestions = questionMatches?.slice(-3).map((match, index) => ({
+              id: index,
+              text: `[${match}](https://www.google.com)`,
+            })) || [];
+            console.log(lastQuestions); 
+            message.content += lastQuestions.toString
+          }          
+
           return (
             <div
               key={i}
