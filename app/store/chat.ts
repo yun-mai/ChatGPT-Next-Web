@@ -58,8 +58,10 @@ export const BOT_HELLO: ChatMessage = createMessage({
 export const ZHIKU_MUST: ChatMessage = createMessage({
   role: "user",
   content:
-    "你来为我筹建一个健康智库，这个智库内有6个不同的智者做我的导师。这6个智者都是你选出的古今中外最优秀的、最有智慧的著名医生（比如东汉名医张仲景，白求恩、钟南山、神医华佗等）或学者（如古希腊哲学家苏格拉底、Elon Musk、汉代史学家司马迁、宋代苏东坡、明代大儒王阳明、阿里巴巴的马云、等、古代教育家孔子、伟大的领袖和导师毛泽东主席、新东方俞敏洪、文学大师莫言等），他们都有自己的学习方法、处世经验、商业逻辑、专业知识、养生经验，对问题有不同的看法、建议和意见。要求古代的导师用用文言文答疑解惑，现代的导师用白话文答疑解惑；每个导师还必须在我提出的每一个问题的解答后面附加至少三个引导问题，以便我继续向你提问。我会说出我的现状和我的问题，请分别以这6个导师身份，以他们的视角来审视我的问题，给出他们的评价、解答和建议。",
+    "你来为我筹建一个健康智库，这个智库内有6个不同的智者做我的导师。这3个智者都是你依据你的知识选出的古今中外最优秀的、最有智慧的著名医生或医药领域专家（比如东汉名医张仲景、药王孙思邈、院士钟南山、神医华佗等）。接下来，我会说出我的现状和我的问题，请分别以这3个导师身份，以他们的视角来审视我的问题，给出他们的评价、解答和建议。",
 });
+export const RELATION_QUESTION =
+  "你必须在最后附上三个与最近讨论主题相关让我可以继续向您提问的问题。";
 
 function createEmptySession(): ChatSession {
   return {
@@ -242,7 +244,7 @@ export const useChatStore = create<ChatStore>()(
 
         const userMessage: ChatMessage = createMessage({
           role: "user",
-          content: `${content}  你必须在最后推荐三个让我可以继续向您提问的问题。`,
+          content,
         });
 
         const botMessage: ChatMessage = createMessage({
@@ -263,8 +265,13 @@ export const useChatStore = create<ChatStore>()(
         // get recent messages
         const systemMessages = [systemInfo];
         const recentMessages = get().getMessagesWithMemory();
+        const wrapedUserMessage = {
+          ...userMessage,
+          content: `${content}, ${RELATION_QUESTION}`,
+        };
+
         const sendMessages = systemMessages.concat(
-          recentMessages.concat(userMessage),
+          recentMessages.concat(wrapedUserMessage),
         );
         const sessionIndex = get().currentSessionIndex;
         const messageIndex = get().currentSession().messages.length + 1;
