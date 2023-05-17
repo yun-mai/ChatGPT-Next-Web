@@ -242,7 +242,7 @@ export const useChatStore = create<ChatStore>()(
 
         const userMessage: ChatMessage = createMessage({
           role: "user",
-          content,
+          content: `${content}。我期望你每次对话的门后面后面附加让我可以继续问您的三个相关问题`,
         });
 
         const botMessage: ChatMessage = createMessage({
