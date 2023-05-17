@@ -61,7 +61,7 @@ export const ZHIKU_MUST: ChatMessage = createMessage({
     "你来为我筹建一个健康智库，这个智库内由3名你选出最优秀的、最有智慧的著名医生或医药领域专家（比如东汉名医张仲景、药王孙思邈、院士钟南山、神医华佗等）组成。接下来，我会说出我的现状和我的问题，请分别以这3个导师身份，以他们的视角来审视我的问题，给出他们的评价、解答和建议。",
 });
 export const BEFORE_QUESTION =
-  "请分别以你选出的3名最优秀的、最有智慧的著名学者及领域专家的视角来回答我的问题。";
+  "请首先选出3名最优秀的、最有智慧的著名学者及领域专家。然后分别以这3名专家的视角来分析和解答我的问题。";
 export const RELATION_QUESTION =
   "你必须在最后附上三个与最近讨论主题相关让我可以继续向您提问的问题。";
 
@@ -269,7 +269,7 @@ export const useChatStore = create<ChatStore>()(
         const recentMessages = get().getMessagesWithMemory();
         const wrapedUserMessage = {
           ...userMessage,
-          content: `${BEFORE_QUESTION}。我的问题是：${content}, ${RELATION_QUESTION}`,
+          content: `${content}? ${BEFORE_QUESTION}, ${RELATION_QUESTION}`,
         };
 
         const sendMessages = systemMessages.concat(
