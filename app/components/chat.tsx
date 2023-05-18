@@ -731,7 +731,7 @@ export function Chat() {
             !(message.preview || message.content.length === 0);
           const showTyping = message.preview || message.streaming;
 
-          const hasRelationQuestion = !isUser && i > 0 && !message.preview;
+          const hasRelationQuestion = !isUser && i > 0 && !message.streaming;
 
           if (hasRelationQuestion) {
             let index = message.content.lastIndexOf("相关的问题：");
@@ -742,9 +742,9 @@ export function Chat() {
               let lastQuestions = message.content
               .substring(index).replace(/\d+\.?\d*/g, "")
               .replace("\n\n", "\n").split("\n");
-              lastQuestions.shift();
+              
               const qSet = new Set();
-              if(lastQuestions.length === 3) {
+              if(lastQuestions.shift() && lastQuestions.length === 3) {
                 lastQuestions.forEach((question: string) => {
                   qSet.add(question);
                 })
