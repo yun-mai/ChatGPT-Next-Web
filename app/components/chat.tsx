@@ -741,12 +741,15 @@ export function Chat() {
             if(index > 10) {
               let lastQuestions = message.content
               .substring(index).replace(/\d+\.?\d*/g, "")
-              .replace("\n\n", "\n").split("\n");
+              .replace("\n\n", "\n")
+              .split("\n");
               
               const qSet = new Set();
               if(lastQuestions.shift() && lastQuestions.length === 3) {
                 lastQuestions.forEach((question: string) => {
-                  qSet.add(question);
+                  if(question.trim().length > 5){
+                    qSet.add(question);
+                  }
                 })
                 // if (qSet.size > 20) {
                 //   qSet.delete(Array.from(qSet).shift());
