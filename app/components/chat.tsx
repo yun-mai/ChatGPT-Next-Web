@@ -751,9 +751,9 @@ export function Chat() {
                 if (qSet.size > 20) {
                   qSet.delete(Array.from(qSet).shift());
                 }
-                setRelationQuestionSet(qSet)
+                setRelationQuestionSet(new Set([...Array.from(qSet)]))
               }
-              console.log(message, lastQuestions, relationQuestionSet);
+              console.log(message, lastQuestions, qSet);
               // chatStore.updateCurrentSession((session) => {
               //   session.relatedQuestions = Array.from(relationQuestionSet);
               // })
