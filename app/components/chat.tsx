@@ -52,7 +52,7 @@ import styles from "./home.module.scss";
 import chatStyle from "./chat.module.scss";
 
 import { ListItem, Modal, showModal } from "./ui-lib";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { LAST_INPUT_KEY, Path, REQUEST_TIMEOUT_MS } from "../constant";
 import { Avatar } from "./emoji";
 import { MaskAvatar, MaskConfig } from "./mask";
@@ -401,7 +401,7 @@ export function Chat() {
     state.currentSession(),
     state.currentSessionIndex,
   ]);
-  const relationQuestionSet = new Set(session.relatedQuestions);
+  const [relationQuestionSet,setRelationQuestionSet] =useState(new Set());
   const config = useAppConfig();
   const fontSize = config.fontSize;
 
@@ -743,13 +743,15 @@ export function Chat() {
               .substring(index).replace(/\d+\.?\d*/g, "")
               .replace("\n\n", "\n").split("\n");
               lastQuestions.shift();
+              const qSet = new Set(relationQuestionSet);
               if(lastQuestions.length === 3) {
                 lastQuestions.forEach((question: string) => {
-                  relationQuestionSet.add(question);
+                  qSet.add(question);
                 })
-                if (relationQuestionSet && relationQuestionSet.size > 20) {
-                  relationQuestionSet.delete(session.relatedQuestions[0]);
+                if (qSet.size > 20) {
+                  qSet.delete(Array.from(qSet).shift());
                 }
+                setRelationQuestionSet(qSet)
               }
               console.log(message, lastQuestions, relationQuestionSet);
               // chatStore.updateCurrentSession((session) => {
