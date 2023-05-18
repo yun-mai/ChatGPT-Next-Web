@@ -401,6 +401,7 @@ export function Chat() {
     state.currentSession(),
     state.currentSessionIndex,
   ]);
+  const relationQuestionSet = new Set(session.relatedQuestions);
   const config = useAppConfig();
   const fontSize = config.fontSize;
 
@@ -740,24 +741,15 @@ export function Chat() {
               .split("\n");
             lastQuestions.shift();
             lastQuestions.forEach((question: string) => {
-              session.relatedQuestions =
-                session.relatedQuestions &&
-                session.relatedQuestions.reduce((acc: string[], cur) => {
-                  // 如果当前元素不等于新增的字符串，则添加到累加器中
-                  if (cur !== question) {
-                    acc.push(question);
-                  }
-                  return acc;
-                }, []);
-              if (
-                session.relatedQuestions &&
-                session.relatedQuestions.length > 20
-              ) {
-                session.relatedQuestions.shift();
+              relationQuestionSet.add(question);
+
+              if (relationQuestionSet && relationQuestionSet.size > 20) {
+                relationQuestionSet.delete(session.relatedQuestions[0]);
               }
             });
-            console.log(lastQuestions, session.relatedQuestions);
+            console.log(lastQuestions, relationQuestionSet);
           }
+          session.relatedQuestions = Array.from(relationQuestionSet);
 
           return (
             <div

@@ -48,7 +48,7 @@ export interface ChatSession {
   lastSummarizeIndex: number;
 
   mask: Mask;
-  relatedQuestions?: string[];
+  relatedQuestions: string[];
 }
 
 export const DEFAULT_TOPIC = Locale.Store.DefaultTopic;
@@ -549,7 +549,7 @@ export const useChatStore = create<ChatStore>()(
     },
   ),
 );
-function createDefaultQuestions(): string[] | undefined {
+function createDefaultQuestions(): string[] {
   return [
     "我不知道如何与你沟通，请首先给我推荐可与你探讨的10个亚健康管理相关的问题。",
     "我不知道如何与你沟通，请首先给我推荐可与你探讨的10个求职与职场加薪相关的问题。",
