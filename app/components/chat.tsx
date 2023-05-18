@@ -716,10 +716,14 @@ export function Chat() {
           const hasRelationQuestion = !isUser && i > 0 && !message.preview;
 
           if (hasRelationQuestion) {
-            const lastQuestions = message.content
+            let lastQuestions = message.content
               .substring(message.content.lastIndexOf("相关问题："))
-              .split("-");
-
+              .split("\n");
+            if (lastQuestions.length < 1) {
+              lastQuestions = message.content
+                .substring(message.content.lastIndexOf("相关的问题："))
+                .split("\n");
+            }
             // lastQuestions.forEach((question) =>
             //   session.relatedQuestions?.push(question),
             // );
