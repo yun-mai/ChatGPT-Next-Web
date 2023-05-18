@@ -743,15 +743,15 @@ export function Chat() {
               .substring(index).replace(/\d+\.?\d*/g, "")
               .replace("\n\n", "\n").split("\n");
               lastQuestions.shift();
-              const qSet = new Set(relationQuestionSet);
+              const qSet = new Set();
               if(lastQuestions.length === 3) {
                 lastQuestions.forEach((question: string) => {
                   qSet.add(question);
                 })
-                if (qSet.size > 20) {
-                  qSet.delete(Array.from(qSet).shift());
-                }
-                setRelationQuestionSet(new Set([...Array.from(qSet)]))
+                // if (qSet.size > 20) {
+                //   qSet.delete(Array.from(qSet).shift());
+                // }
+                // setRelationQuestionSet(new Set([...Array.from(qSet)]))
               }
               console.log(message, lastQuestions, qSet);
               // chatStore.updateCurrentSession((session) => {
