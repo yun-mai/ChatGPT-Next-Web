@@ -745,11 +745,12 @@ export function Chat() {
               .split("\n");
               
               const qSet = new Set();
+              lastQuestions = lastQuestions.filter((question: string) => 
+                question.trim().length > 5
+              );
               if(lastQuestions.shift() && lastQuestions.length === 3) {
                 lastQuestions.forEach((question: string) => {
-                  if(question.trim().length > 5){
                     qSet.add(question);
-                  }
                 })
                 // if (qSet.size > 20) {
                 //   qSet.delete(Array.from(qSet).shift());
