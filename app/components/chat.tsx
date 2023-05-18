@@ -740,7 +740,9 @@ export function Chat() {
               .split("\n");
             lastQuestions.shift();
             lastQuestions.forEach((question) => {
-              session.relatedQuestions?.push(question);
+              if (!session.relatedQuestions?.includes(question)) {
+                session.relatedQuestions?.push(question);
+              }
               if (
                 session.relatedQuestions &&
                 session.relatedQuestions.length > 20
