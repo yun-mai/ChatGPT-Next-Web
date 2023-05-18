@@ -734,9 +734,10 @@ export function Chat() {
 
           if (hasRelationQuestion) {
             let lastQuestions = message.content
-              .substring(message.content.lastIndexOf("问题："))
+              .substring(message.content.lastIndexOf("："))
               .replace(/\d+\.?\d*/g, "")
-              .split("\n\n");
+              .replace("\n\n", "\n")
+              .split("\n");
             lastQuestions.shift();
             lastQuestions.forEach((question) => {
               session.relatedQuestions?.push(question);
