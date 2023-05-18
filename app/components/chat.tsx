@@ -744,20 +744,21 @@ export function Chat() {
               .replace("\n\n", "\n")
               .split("\n");
               
-              const qSet = new Set();
+              const qSet = new Set(relationQuestionSet);
               lastQuestions = lastQuestions.filter((question: string) => 
                 question.trim().length > 5
               );
-              if(lastQuestions.shift() && lastQuestions.length === 3) {
+              lastQuestions.shift();
+              if(lastQuestions.length > 0) {
                 lastQuestions.forEach((question: string) => {
                     qSet.add(question);
                 })
                 // if (qSet.size > 20) {
                 //   qSet.delete(Array.from(qSet).shift());
                 // }
-                // setRelationQuestionSet(new Set([...Array.from(qSet)]))
+                setRelationQuestionSet(qSet)
               }
-              console.log(message, lastQuestions, qSet);
+              console.log(message, lastQuestions, qSet,relationQuestionSet);
               // chatStore.updateCurrentSession((session) => {
               //   session.relatedQuestions = Array.from(relationQuestionSet);
               // })
