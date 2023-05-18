@@ -713,28 +713,17 @@ export function Chat() {
             !(message.preview || message.content.length === 0);
           const showTyping = message.preview || message.streaming;
 
-          const hasRelationQuestion =
-            !isUser &&
-            i > 0 &&
-            !(message.preview || message.content.length === 0);
+          const hasRelationQuestion = !isUser && i > 0 && !message.preview;
 
           if (hasRelationQuestion) {
-            // const htmlText = marked( message.content );
-            // const questionMatches = htmlText.match(/<li>(.*?)<\/li>/g);
-            message.content.lastIndexOf("-", 3);
             const lastQuestions = message.content
-              .substring(message.content.lastIndexOf("-", 3))
+              .substring(message.content.lastIndexOf("相关问题："))
               .split("-");
-            // const questionMatches = ["aaa", "bbb", "ccc", "ddd", "eee"];
-            // const lastQuestions = questionMatches?.slice(-3).map((match, index) => ({
-            //   id: index,
-            //   text: `[${match}](https://www.google.com)`,
-            // })) || [];
-            console.log(lastQuestions);
+
             lastQuestions.forEach((question) =>
               session.relatedQuestions?.push(question),
             );
-            console.log(session.relatedQuestions);
+            console.log(message, lastQuestions, session.relatedQuestions);
           }
 
           return (
