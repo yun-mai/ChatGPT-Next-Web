@@ -734,22 +734,29 @@ export function Chat() {
           const hasRelationQuestion = !isUser && i > 0 && !message.preview;
 
           if (hasRelationQuestion) {
-            let lastQuestions = message.content
-              .substring(message.content.lastIndexOf("："))
-              .replace(/\d+\.?\d*/g, "")
-              .replace("\n\n", "\n")
-              .split("\n");
-            lastQuestions.shift();
-            lastQuestions.forEach((question: string) => {
-              relationQuestionSet.add(question);
-
-              if (relationQuestionSet && relationQuestionSet.size > 20) {
-                relationQuestionSet.delete(session.relatedQuestions[0]);
+            let index = message.content.lastIndexOf("相关的问题：");
+            index= index === -1 ? message.content.lastIndexOf("相关问题：") : index;
+            index= index === -1 ? message.content.lastIndexOf("三个问题：") : index;
+            index= index === -1 ? message.content.lastIndexOf("问题：") : index;
+            if(index > 10) {
+              let lastQuestions = message.content
+              .substring(index).replace(/\d+\.?\d*/g, "")
+              .replace("\n\n", "\n").split("\n");
+              lastQuestions.shift();
+              if(lastQuestions.length === 3) {
+                lastQuestions.forEach((question: string) => {
+                  relationQuestionSet.add(question);
+                })
+                if (relationQuestionSet && relationQuestionSet.size > 20) {
+                  relationQuestionSet.delete(session.relatedQuestions[0]);
+                }
               }
-            });
-            console.log(lastQuestions, relationQuestionSet);
+              console.log(message, lastQuestions, relationQuestionSet);
+              chatStore.updateCurrentSession((session) => {
+                session.relatedQuestions = Array.from(relationQuestionSet);
+              })
+            }            
           }
-          session.relatedQuestions = Array.from(relationQuestionSet);
 
           return (
             <div
