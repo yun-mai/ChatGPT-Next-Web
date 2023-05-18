@@ -752,9 +752,9 @@ export function Chat() {
                 }
               }
               console.log(message, lastQuestions, relationQuestionSet);
-              chatStore.updateCurrentSession((session) => {
-                session.relatedQuestions = Array.from(relationQuestionSet);
-              })
+              // chatStore.updateCurrentSession((session) => {
+              //   session.relatedQuestions = Array.from(relationQuestionSet);
+              // })
             }            
           }
 
