@@ -747,7 +747,7 @@ export function Chat() {
                 session.relatedQuestions.shift();
               }
             });
-            console.log(lastQuestions);
+            console.log(lastQuestions, session.relatedQuestions);
           }
 
           return (
