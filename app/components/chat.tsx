@@ -720,10 +720,10 @@ export function Chat() {
               .substring(message.content.lastIndexOf("相关问题："))
               .split("-");
 
-            lastQuestions.forEach((question) =>
-              session.relatedQuestions?.push(question),
-            );
-            console.log(message, lastQuestions, session.relatedQuestions);
+            // lastQuestions.forEach((question) =>
+            //   session.relatedQuestions?.push(question),
+            // );
+            console.log(message, lastQuestions);
           }
 
           return (
