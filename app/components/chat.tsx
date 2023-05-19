@@ -838,8 +838,7 @@ export function Chat() {
                   }
                 }
               });
-              console.log(message, lastQuestions, session.relatedQuestions);
-              setQuestionHints(session.relatedQuestions);
+              // setQuestionHints(session.relatedQuestions);
             }
           }
 
