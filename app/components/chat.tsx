@@ -10,6 +10,7 @@ import CopyIcon from "../icons/copy.svg";
 import DownloadIcon from "../icons/download.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 import PromptIcon from "../icons/prompt.svg";
+import QuestionIcon from "../icons/promptQuestion.svg";
 import MaskIcon from "../icons/mask.svg";
 import MaxIcon from "../icons/max.svg";
 import MinIcon from "../icons/min.svg";
@@ -350,7 +351,7 @@ export function RelatedQuestionHints(props: {
           onClick={() => props.onQuestionSelect(question)}
           onMouseEnter={() => setSelectIndex(i)}
         >
-          <div className={styles["hint-title"]}>{question}</div>
+          {/* <div className={styles["hint-title"]}>{question}</div> */}
           <div className={styles["hint-content"]}>{question}</div>
         </div>
       ))}
@@ -456,7 +457,7 @@ export function ChatActions(props: {
         className={`${chatStyle["chat-input-action"]} clickable`}
         onClick={props.showRelatedQuestions}
       >
-        <PromptIcon />
+        <QuestionIcon />
       </div>
 
       <div
@@ -704,7 +705,6 @@ export function Chat() {
   const [showPromptModal, setShowPromptModal] = useState(false);
   const [showRelatedQuestionModal, setShowRelatedQuestionModal] =
     useState(false);
-
   const renameSession = () => {
     const newTopic = prompt(Locale.Chat.Rename, session.topic);
     if (newTopic && newTopic !== session.topic) {
@@ -800,23 +800,6 @@ export function Chat() {
         }}
       >
         {messages.map((message, i) => {
-          // const dd ={
-          //   "id": 1684392947346,
-          //   "date": "2023/5/18 14:55:47",
-          //   "role": "assistant",
-          //   "content": "好的，以下是不同体质的人最常提问的20个问题的表格：\n\n| 体质类型 | 常见问题 |\n| --- | --- |\n| 平和质 | 如何保持身体平衡？如何增强免疫力？如何预防疾病？如何调节情绪？如何保持精神愉悦？如何保持健康的饮食习惯？如何保持适度的运动量？如何调节作息时间？如何保持健康的生活方式？如何预防衰老？ |\n| 气虚质 | 如何增强体力和耐力？如何预防疲劳？如何增强免疫力？如何改善食欲？如何调节情绪？如何保持精神愉悦？如何保持适度的运动量？如何调节作息时间？如何保持健康的生活方式？如何预防衰老？ |\n| 阳虚质 | 如何增强体力和耐力？如何预防疲劳？如何增强免疫力？如何改善食欲？如何调节情绪？如何保持精神愉悦？如何保持适度的运动量？如何调节作息时间？如何保持健康的生活方式？如何预防衰老？ |\n| 阴虚质 | 如何预防失眠？如何改善食欲？如何调节情绪？如何保持精神愉悦？如何预防疾病？如何增强免疫力？如何保持适度的运动量？如何调节作息时间？如何保持健康的生活方式？如何预防衰老？ |\n| 痰湿质 | 如何改善消化？如何预防肥胖？如何增强免疫力？如何调节情绪？如何保持精神愉悦？如何保持适度的运动量？如何调节作息时间？如何保持健康的生活方式？如何预防衰老？ |\n| 血瘀质 | 如何改善血液循环？如何预防心血管疾病？如何增强免疫力？如何调节情绪？如何保持精神愉悦？如何保持适度的运动量？如何调节作息时间？如何保持健康的生活方式？如何预防衰老？ |\n| 湿热质 | 如何改善消化？如何预防感染？如何增强免疫力？如何调节情绪？如何保持精神愉悦？如何保持适度的运动量？如何调节作息时间？如何保持健康的生活方式？如何预防衰老？ |\n| 气郁质 | 如何调节情绪？如何保持精神愉悦？如何预防疾病？如何增强免疫力？如何保持适度的运动量？如何调节作息时间？如何保持健康的生活方式？如何预防衰老？ |\n| 特禀质 | 如何预防过敏？如何增强免疫力？如何调节情绪？如何保持精神愉悦？如何保持适度的运动量？如何调节作息时间？如何保持健康的生活方式？如何预防衰老？ |\n\n接下来，我将从三位专家的视角来分析和解答您的问题。\n\n1. 张仲景的视角：\n\n张仲景是东汉时期的著名医家，被誉为“中药之祖”。从张仲景的视角来看，他会注重通过中药调理身体，从根本上调整体质。他会建议您在饮食上注意平衡营养，多食用一些具有滋补作用的食物，如鸡汤、鱼汤、猪蹄等。此外，他还会建议您在生活中保持适度的运动量，如散步、打太极拳等，以增强体质。对于不同体质的人，张仲景会根据其体质特点，给出相应的调理方案。\n\n2. 孙思邈的视角：\n\n孙思邈是唐代著名的医药学家，他的医学理论深受后世医学家的推崇。从孙思邈的视角来看，他会注重通过调整饮食来调理身体。他认为饮食是人体健康的基础，建议您在饮食上注意清淡，少食辛辣刺激性食物，多食用一些具有滋补作用的食物，如蜂蜜、枸杞、燕窝等。此外，他还会建议您在生活中保持适度的运动量，如散步、打太极拳等，以增强体质。对于不同体质的人，孙思邈会根据其体质特点，给出相应的调理方案。\n\n3. 钟南山的视角：\n\n钟南山是当代著名的呼吸病学专家，他在抗击新冠疫情中发挥了重要作用。从钟南山的视角来看，他会注重通过保持健康的生活方式来调理身体。他认为保持健康的生活方式是预防疾病的关键，建议您在生活中保持适度的运动量，如散步、慢跑等，同时注意保持良好的睡眠质量。此外，他还会建议您在饮食上注意清淡，少食辛辣刺激性食物，多食用一些富含维生素和矿物质的食物，如蔬菜、水果、全谷类食品等。对于不同体质的人，钟南山会根据其体质特点，给出相应的调理方案。\n\n与最近讨论主题相关的三个问题：\n\n1. 如何应对新冠疫情？\n\n2. 如何保持身体健康？\n\n3. 如何预防慢性病？",
-          //   "streaming": false,
-          //   "model": "gpt-3.5-turbo"
-          // };
-
-          // let lastQuestions_dd = dd.content
-          // .substring(dd.content.lastIndexOf("问题："))
-          // .replace(/\d+\.?\d*/g, '')
-          // .split("\n\n");
-
-          // lastQuestions_dd.shift();
-          // console.log(dd, lastQuestions_dd);
-
           const isUser = message.role === "user";
           const showActions =
             !isUser &&
@@ -848,7 +831,6 @@ export function Chat() {
               );
               lastQuestions.shift();
               lastQuestions.forEach((question) => {
-                console.log(">>>>>>>>>>>>>>>>>", question);
                 if (session.relatedQuestions.indexOf(question) === -1) {
                   session.relatedQuestions.push(question);
                   if (session.relatedQuestions.length > 20) {
@@ -857,6 +839,7 @@ export function Chat() {
                 }
               });
               console.log(message, lastQuestions, session.relatedQuestions);
+              setQuestionHints(session.relatedQuestions);
             }
           }
 
@@ -947,7 +930,7 @@ export function Chat() {
       <div className={styles["chat-input-panel"]}>
         <PromptHints prompts={promptHints} onPromptSelect={onPromptSelect} />
         <RelatedQuestionHints
-          questions={session.relatedQuestions}
+          questions={questionHints}
           onQuestionSelect={onQuestionSelect}
         />
 
@@ -955,7 +938,10 @@ export function Chat() {
           showPromptModal={() => setShowPromptModal(true)}
           scrollToBottom={scrollToBottom}
           hitBottom={hitBottom}
-          showRelatedQuestions={() => setShowRelatedQuestionModal(true)}
+          showRelatedQuestions={() => {
+            setQuestionHints(session.relatedQuestions);
+            setShowRelatedQuestionModal(true);
+          }}
           showPromptHints={() => {
             // Click again to close
             if (promptHints.length > 0) {
