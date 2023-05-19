@@ -52,7 +52,7 @@ import styles from "./home.module.scss";
 import chatStyle from "./chat.module.scss";
 
 import { ListItem, Modal, showModal } from "./ui-lib";
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { LAST_INPUT_KEY, Path, REQUEST_TIMEOUT_MS } from "../constant";
 import { Avatar } from "./emoji";
 import { MaskAvatar, MaskConfig } from "./mask";
@@ -401,7 +401,7 @@ export function Chat() {
     state.currentSession(),
     state.currentSessionIndex,
   ]);
-  const [relationQuestionSet,setRelationQuestionSet] =useState(new Set());
+  // const [relationQuestionSet,setRelationQuestionSet] =useState(new Set());
   const config = useAppConfig();
   const fontSize = config.fontSize;
 
@@ -735,34 +735,34 @@ export function Chat() {
 
           if (hasRelationQuestion) {
             let index = message.content.lastIndexOf("相关的问题：");
-            index= index === -1 ? message.content.lastIndexOf("相关问题：") : index;
-            index= index === -1 ? message.content.lastIndexOf("三个问题：") : index;
-            index= index === -1 ? message.content.lastIndexOf("问题：") : index;
-            if(index > 10) {
+            index =
+              index === -1 ? message.content.lastIndexOf("相关问题：") : index;
+            index =
+              index === -1 ? message.content.lastIndexOf("三个问题：") : index;
+            if (index > 10) {
               let lastQuestions = message.content
-              .substring(index).replace(/\d+\.?\d*/g, "")
-              .replace("\n\n", "\n")
-              .split("\n");
-              
-              const qSet = new Set(relationQuestionSet);
-              lastQuestions = lastQuestions.filter((question: string) => 
-                question.trim().length > 5
+                .substring(index)
+                .replace(/\d+\.?\d*/g, "")
+                .replace("\n\n", "\n")
+                .split("\n");
+
+              lastQuestions = lastQuestions.filter(
+                (question: string) => question.trim().length > 0,
               );
               lastQuestions.shift();
-              if(lastQuestions.length > 0) {
-                lastQuestions.forEach((question: string) => {
-                    qSet.add(question);
-                })
-                // if (qSet.size > 20) {
-                //   qSet.delete(Array.from(qSet).shift());
-                // }
-                setRelationQuestionSet(qSet)
-              }
-              console.log(message, lastQuestions, qSet,relationQuestionSet);
+              lastQuestions.forEach((question) => {
+                if (session.relatedQuestions.indexOf(question) === -1) {
+                  session.relatedQuestions.push(question);
+                  if (session.relatedQuestions.length > 20) {
+                    session.relatedQuestions.shift();
+                  }
+                }
+              });
+              console.log(message, lastQuestions, session.relatedQuestions);
               // chatStore.updateCurrentSession((session) => {
               //   session.relatedQuestions = Array.from(relationQuestionSet);
               // })
-            }            
+            }
           }
 
           return (
