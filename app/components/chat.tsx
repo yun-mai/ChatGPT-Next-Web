@@ -943,6 +943,14 @@ export function Chat() {
           scrollToBottom={scrollToBottom}
           hitBottom={hitBottom}
           showRelatedQuestions={() => {
+            // Click again to close
+            if (questionHints.length > 0) {
+              setQuestionHints([]);
+              return;
+            }
+
+            inputRef.current?.focus();
+            setUserInput("?");
             setQuestionHints(session.relatedQuestions);
             setShowRelatedQuestionModal(true);
           }}
