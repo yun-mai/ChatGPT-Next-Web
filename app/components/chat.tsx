@@ -762,7 +762,7 @@ export function Chat() {
               lastQuestions.forEach((question) => {
                 console.log(">>>>>>>>>>>>>>>>>", question);
                 if (session.relatedQuestions.indexOf(question) === -1) {
-                  // session.relatedQuestions.push(question);
+                  session.relatedQuestions.push(question);
                   if (session.relatedQuestions.length > 20) {
                     session.relatedQuestions.shift();
                   }
