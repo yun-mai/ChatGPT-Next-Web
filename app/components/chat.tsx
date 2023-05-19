@@ -401,7 +401,6 @@ export function Chat() {
     state.currentSession(),
     state.currentSessionIndex,
   ]);
-  // const [relationQuestionSet,setRelationQuestionSet] =useState(new Set());
   const config = useAppConfig();
   const fontSize = config.fontSize;
 
@@ -731,7 +730,8 @@ export function Chat() {
             !(message.preview || message.content.length === 0);
           const showTyping = message.preview || message.streaming;
 
-          const hasRelationQuestion = !isUser && i > 0 && !message.streaming;
+          const hasRelationQuestion =
+            !isUser && i > 0 && !message.streaming && !message.preview;
 
           if (hasRelationQuestion) {
             let index = message.content.lastIndexOf("相关的问题：");
@@ -739,6 +739,7 @@ export function Chat() {
               index === -1 ? message.content.lastIndexOf("相关问题：") : index;
             index =
               index === -1 ? message.content.lastIndexOf("三个问题：") : index;
+            console.log(index, message.content);
             if (index > 10) {
               let lastQuestions = message.content
                 .substring(index)
@@ -751,6 +752,7 @@ export function Chat() {
               );
               lastQuestions.shift();
               lastQuestions.forEach((question) => {
+                console.log(">>>>>>>>>>>>>>>>>", question);
                 if (session.relatedQuestions.indexOf(question) === -1) {
                   session.relatedQuestions.push(question);
                   if (session.relatedQuestions.length > 20) {
@@ -759,9 +761,6 @@ export function Chat() {
                 }
               });
               console.log(message, lastQuestions, session.relatedQuestions);
-              // chatStore.updateCurrentSession((session) => {
-              //   session.relatedQuestions = Array.from(relationQuestionSet);
-              // })
             }
           }
 
