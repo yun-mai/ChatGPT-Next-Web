@@ -555,6 +555,9 @@ export function Chat() {
       if (text.startsWith("/")) {
         let searchText = text.slice(1);
         onSearch(searchText);
+      } else if (text.startsWith("?") || text.startsWith("？")) {
+        setQuestionHints(session.relatedQuestions);
+        setShowRelatedQuestionModal(true);
       }
     }
   };
@@ -818,6 +821,8 @@ export function Chat() {
               index === -1 ? message.content.lastIndexOf("三个问题：") : index;
             index =
               index === -1 ? message.content.lastIndexOf("其他问题：") : index;
+            index =
+              index === -1 ? message.content.lastIndexOf("向我提问：") : index;
             console.log(index, message.content);
             if (index > 10) {
               let lastQuestions = message.content
