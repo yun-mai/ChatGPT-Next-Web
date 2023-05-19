@@ -286,6 +286,77 @@ export function PromptHints(props: {
     </div>
   );
 }
+export function RelatedQuestionHints(props: {
+  questions: string[];
+  onQuestionSelect: (question: string) => void;
+}) {
+  const noQuestions = props.questions.length === 0;
+  const [selectIndex, setSelectIndex] = useState(0);
+  const selectedRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setSelectIndex(0);
+  }, [props.questions.length]);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (noQuestions) return;
+      if (e.metaKey || e.altKey || e.ctrlKey) {
+        return;
+      }
+      // arrow up / down to select prompt
+      const changeIndex = (delta: number) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const nextIndex = Math.max(
+          0,
+          Math.min(props.questions.length - 1, selectIndex + delta),
+        );
+        setSelectIndex(nextIndex);
+        selectedRef.current?.scrollIntoView({
+          block: "center",
+        });
+      };
+
+      if (e.key === "ArrowUp") {
+        changeIndex(1);
+      } else if (e.key === "ArrowDown") {
+        changeIndex(-1);
+      } else if (e.key === "Enter") {
+        const selectedQuestion = props.questions.at(selectIndex);
+        if (selectedQuestion) {
+          props.onQuestionSelect(selectedQuestion);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => window.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [noQuestions, selectIndex]);
+
+  if (noQuestions) return null;
+  return (
+    <div className={styles["prompt-hints"]}>
+      {props.questions.map((question, i) => (
+        <div
+          ref={i === selectIndex ? selectedRef : null}
+          className={
+            styles["prompt-hint"] +
+            ` ${i === selectIndex ? styles["prompt-hint-selected"] : ""}`
+          }
+          key={question + i.toString()}
+          onClick={() => props.onQuestionSelect(question)}
+          onMouseEnter={() => setSelectIndex(i)}
+        >
+          <div className={styles["hint-title"]}>{question}</div>
+          <div className={styles["hint-content"]}>{question}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function useScrollToBottom() {
   // for auto-scroll
@@ -312,6 +383,7 @@ function useScrollToBottom() {
 }
 
 export function ChatActions(props: {
+  showRelatedQuestions: () => void;
   showPromptModal: () => void;
   scrollToBottom: () => void;
   showPromptHints: () => void;
@@ -380,6 +452,12 @@ export function ChatActions(props: {
       >
         <PromptIcon />
       </div>
+      <div
+        className={`${chatStyle["chat-input-action"]} clickable`}
+        onClick={props.showRelatedQuestions}
+      >
+        <PromptIcon />
+      </div>
 
       <div
         className={`${chatStyle["chat-input-action"]} clickable`}
@@ -421,6 +499,7 @@ export function Chat() {
   // prompt hints
   const promptStore = usePromptStore();
   const [promptHints, setPromptHints] = useState<Prompt[]>([]);
+  const [questionHints, setQuestionHints] = useState<string[]>([]);
   const onSearch = useDebouncedCallback(
     (text: string) => {
       setPromptHints(promptStore.search(text));
@@ -433,6 +512,11 @@ export function Chat() {
     setPromptHints([]);
     inputRef.current?.focus();
     setTimeout(() => setUserInput(prompt.content), 60);
+  };
+  const onQuestionSelect = (question: string) => {
+    setQuestionHints([]);
+    inputRef.current?.focus();
+    setTimeout(() => setUserInput(question), 60);
   };
 
   // auto grow input
@@ -618,6 +702,8 @@ export function Chat() {
     );
 
   const [showPromptModal, setShowPromptModal] = useState(false);
+  const [showRelatedQuestionModal, setShowRelatedQuestionModal] =
+    useState(false);
 
   const renameSession = () => {
     const newTopic = prompt(Locale.Chat.Rename, session.topic);
@@ -860,11 +946,16 @@ export function Chat() {
 
       <div className={styles["chat-input-panel"]}>
         <PromptHints prompts={promptHints} onPromptSelect={onPromptSelect} />
+        <RelatedQuestionHints
+          questions={session.relatedQuestions}
+          onQuestionSelect={onQuestionSelect}
+        />
 
         <ChatActions
           showPromptModal={() => setShowPromptModal(true)}
           scrollToBottom={scrollToBottom}
           hitBottom={hitBottom}
+          showRelatedQuestions={() => setShowRelatedQuestionModal(true)}
           showPromptHints={() => {
             // Click again to close
             if (promptHints.length > 0) {
